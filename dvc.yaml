@@ -1,0 +1,24 @@
+stages:
+  mindepth:
+    vars:
+      - container:
+          out: /mnt/out
+          tmf: /mnt/in/TRACMASS_run.hdf5
+          dep: /mnt/in/column_depth.hdf5
+      - ../../params.yaml
+    cmd:
+      singularity run --no-home --cleanenv --containall
+        --bind $(realpath $(dvc root)/../..)/${data.hdf5}:${container.out}:rw
+        --bind $(realpath $(dvc root)/../..)/${data.tracmass_hdf5}:${container.tmf}:ro
+        --bind $(realpath $(dvc root)/../..)/${data.depth}:${container.dep}:ro
+      ../../src/dians-${package_version}.sif create_column
+        --tracmass-hdf5=${container.tmf}
+        --depthcol=${container.dep}
+        --column-dst=${container.out}
+        --column=mindepth
+    deps:
+      - ../../${data.tracmass_hdf5}
+      - ../../${data.depth}
+      - ../../src/dians-${package_version}.sif
+    outs:
+      - ../../${data.mindepth}
