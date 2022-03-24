@@ -3,21 +3,20 @@ stages:
   mindepth:
     cmd: singularity run --no-home --cleanenv --containall --bind $(realpath $(dvc
       root)/../..)/data/hdf5:/mnt/out:rw --bind $(realpath $(dvc root)/../..)/data/hdf5/TRACMASS_run.hdf5:/mnt/in/TRACMASS_run.hdf5:ro
-      --bind $(realpath $(dvc root)/../..)/data/hdf5/column_depth-debug.hdf5:/mnt/in/column_depth.hdf5:ro
+      --bind $(realpath $(dvc root)/../..)/data/hdf5/column_depth.hdf5:/mnt/in/column_depth.hdf5:ro
       ../../src/dians-v2022.2.0.sif create_column --tracmass-hdf5=/mnt/in/TRACMASS_run.hdf5
       --depthcol=/mnt/in/column_depth.hdf5 --column-dst=/mnt/out --column=mindepth
-      --debug --initrow=1_000_000_000 --nrows=1_000_000
     deps:
     - path: ../../data/hdf5/TRACMASS_run.hdf5
       md5: 88673606f06aa422c2cd66cd698c29ec
       size: 245650906248
-    - path: ../../data/hdf5/column_depth-debug.hdf5
-      md5: c281e1df2a20835328646ca68ffb4d60
-      size: 8008856
+    - path: ../../data/hdf5/column_depth.hdf5
+      md5: 95af436991f963fc2b79a1cde8f9a52c
+      size: 40941823744
     - path: ../../src/dians-v2022.2.0.sif
       md5: 218630c4eb87913ebe01a7693bc35239
       size: 720613376
     outs:
-    - path: ../../data/hdf5/column_mindepth-debug.hdf5
-      md5: 81c254e467599e9456624ac7bab51e58
-      size: 8008856
+    - path: ../../data/hdf5/column_mindepth.hdf5
+      md5: 20d079fec37ab5c2eaea4884670e5d62
+      size: 40941823744
